@@ -30,8 +30,8 @@ func TestUpdateFeeds( t *testing.T) {
     const numConnections int = 1
 
     podSources := []PodcastSource{  
-        PodcastSource{ "Freakonomics", "http://feeds.feedburner.com/freakonomicsradio", 4, false },
-        PodcastSource{ "Hensel_Minutes", "http://feeds.feedburner.com/Hanselminutes?format=xml", 4, false },
+        PodcastSource{ "Freakonomics", "http://feeds.feedburner.com/freakonomicsradio", 4, },
+        PodcastSource{ "Hensel_Minutes", "http://feeds.feedburner.com/Hanselminutes?format=xml", 4, },
     }
 
     feedUpdater := UpdateFeeds( podSources,  numConnections)

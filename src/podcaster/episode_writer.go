@@ -13,6 +13,6 @@ type EpisodeWriter interface {
 
 // Interface to a creator of episode writers.
 type EpisodeWriterCreator interface {
-    CreateEpisodeWriter( podcast PodcastSource, episode PodcastEpisode) (EpisodeWriter, error)
+    CreateEpisodeWriter( podcast PodcastSource, episode PodcastEpisodeMeta) (EpisodeWriter, error)
 }
 

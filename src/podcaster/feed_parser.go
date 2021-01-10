@@ -74,16 +74,16 @@ func executeXmlReplacements( xmlData []byte, replacements []xmlBuffReplacement) 
 
 //-------------------------------------------------------------------------------------------------
 func ParseRssFeedAllEpisodes( podSource PodcastSource,
-                              reader io.Reader ) ([]PodcastEpisode,error) {
+                              reader io.Reader ) ([]PodcastEpisodeMeta,error) {
     return ParseRssFeed(podSource, 
                         reader, 
-                        func( _ *PodcastSource, _ *PodcastEpisode) bool { return true })
+                        func( _ *PodcastSource, _ *PodcastEpisodeMeta) bool { return true })
 }
 
 //-------------------------------------------------------------------------------------------------
 func ParseRssFeed(podSource PodcastSource,
                   reader io.Reader,
-                  funcAcceptEpisode func(*PodcastSource, *PodcastEpisode) bool ) ([]PodcastEpisode,error) {
+                  funcAcceptEpisode func(*PodcastSource, *PodcastEpisodeMeta) bool ) ([]PodcastEpisodeMeta,error) {
     defer dmlog.MethodStartEnd()()
     readData, err := ioutil.ReadAll( reader)
     if err!=nil {
@@ -98,7 +98,7 @@ func ParseRssFeed(podSource PodcastSource,
         return nil,fmt.Errorf("Unmarshal() failed:%s",err)
     }
 
-    var podEpisodes = make( []PodcastEpisode, 0, len(rssContent.Channel.Items) )
+    var podEpisodes = make( []PodcastEpisodeMeta, 0, len(rssContent.Channel.Items) )
     for _,rssItem := range rssContent.Channel.Items { 
         enclosure := &rssItem.Enclosure
         trimmedType := strings.TrimSpace(enclosure.Type)
@@ -124,13 +124,13 @@ func ParseRssFeed(podSource PodcastSource,
             return nil,fmt.Errorf("failed parsing the duration %s:%s",rssItem.Duration,err)
         }
 
-        podEpisode := PodcastEpisode {Title: rssItem.Title,
-                                      Summary: rssItem.Summary,
-                                      AudioFileUrl: Url(enclosure.Url),
-                                      EpisodeNumber: rssItem.EpisodeNumber,
-                                      PublicationDate: DateTime(pubDate), 
-                                      AudioFileSize: ByteSize(enclosure.Length),
-                                      AudioDuration: duration,
+        podEpisode := PodcastEpisodeMeta {Title: rssItem.Title,
+                                          Summary: rssItem.Summary,
+                                          AudioFileUrl: Url(enclosure.Url),
+                                          EpisodeNumber: rssItem.EpisodeNumber,
+                                          PublicationDate: DateTime(pubDate), 
+                                          AudioFileSize: ByteSize(enclosure.Length),
+                                          AudioDuration: duration,
         }
         dmlog.Debug("podEpisode.PublicationDate:", &podEpisode.PublicationDate)   
         if funcAcceptEpisode( &podSource, &podEpisode) {

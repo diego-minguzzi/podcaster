@@ -66,12 +66,11 @@ func podcastFeedUpdater( ctx *concretePodcastFeed) {
                     err: nil, 
                     update: PodcastFeedUpdate {
                         Podcast: podcastSource,
-                        Episodes: make( []PodcastEpisode, 0, defaultNumEpisodesCap),
+                        Episodes: make( []PodcastEpisodeMeta, 0, defaultNumEpisodesCap),
                     },
                 }
-                dmlog.Debug("About to get from", podcastSource.FeedUrl.String())  
                 resp, err := http.Get(podcastSource.FeedUrl.String())
-                dmlog.Debug("Got response from", podcastSource.FeedUrl.String())  
+                dmlog.Debug("Got response from ", podcastSource.FeedUrl.String())  
                 if err!=nil {
                     dmlog.Error("http.Get():", err)
                     feedUpdate.err = fmt.Errorf("error while getting from %s:%s",podcastSource.FeedUrl.String(),err)

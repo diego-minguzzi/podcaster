@@ -8,8 +8,7 @@ func TestFreakonomicsParseRssFeedAllEpisodes( t *testing.T) {
     podSource := PodcastSource {
         PodcastName: "FreakonomicsRadio",
         FeedUrl: "http://feeds.feedburner.com/freakonomicsradio",
-        NumEpisodesToDownload: 10,
-        OverwriteFilename: false, 
+        NumEpisodesToDownload: 10,        
 	}
 
     rssReader := strings.NewReader( freakRssUpdate)
@@ -21,7 +20,7 @@ func TestFreakonomicsParseRssFeedAllEpisodes( t *testing.T) {
     }
 
 	var indxEpisode = 0
-    var gotEpisode PodcastEpisode
+    var gotEpisode PodcastEpisodeMeta
     if indxEpisode>=len(podEpisodes) {
         t.Error(t.Name(),`indxEpisode:`,indxEpisode,` num episodes:`,len(podEpisodes))            
 	} else {
@@ -31,7 +30,7 @@ func TestFreakonomicsParseRssFeedAllEpisodes( t *testing.T) {
             return
 		}
 		gotEpisode= podEpisodes[indxEpisode]
-	    wantEpisode := PodcastEpisode {
+	    wantEpisode := PodcastEpisodeMeta {
             Title: "A Sneak Peek at Biden’s Top Economist",
             Summary: `The incoming president argues that the economy and the environment are deeply connected. This is reflected in his choice for National Economic Council director — Brian Deese, a climate-policy wonk and veteran of the no-drama-Obama era. But don’t mistake Deese’s lack of drama for a lack of intensity.`,
             AudioFileUrl: `https://chtbl.com/track/288D49/traffic.omny.fm/d/clips/aaea4e69-af51-495e-afc9-a9760146922b/14a43378-edb2-49be-8511-ab0d000a7030/32f622dd-6044-4f9a-a6d6-ac8d0008b84e/audio.mp3?utm_source=Podcast&in_playlist=d1b9612f-bb1b-4b85-9c0c-ab0d004ab37a`,
@@ -57,7 +56,7 @@ func TestFreakonomicsParseRssFeedAllEpisodes( t *testing.T) {
             return
 		}
 		gotEpisode= podEpisodes[indxEpisode]
-	    wantEpisode := PodcastEpisode {
+	    wantEpisode := PodcastEpisodeMeta {
             Title: "PLAYBACK (2015): Could the Next Brooklyn Be ... Las Vegas?!",
             Summary: `Tony Hsieh, the longtime C.E.O. of Zappos, was an iconoclast and a dreamer. Five years ago, we sat down with him around a desert campfire to talk about those dreams. Hsieh died recently from injuries sustained in a house fire; he was 46.`,
             AudioFileUrl: `https://chtbl.com/track/288D49/traffic.omny.fm/d/clips/aaea4e69-af51-495e-afc9-a9760146922b/14a43378-edb2-49be-8511-ab0d000a7030/4df1ab4b-de1f-4b50-aced-ac880003b5a5/audio.mp3?utm_source=Podcast&;in_playlist=d1b9612f-bb1b-4b85-9c0c-ab0d004ab37a`,
@@ -86,7 +85,7 @@ func TestFreakonomicsParseRssFeedAllEpisodes( t *testing.T) {
             return
 		}
 		gotEpisode= podEpisodes[indxEpisode]
-	    wantEpisode := PodcastEpisode {
+	    wantEpisode := PodcastEpisodeMeta {
             Title: "How to Make Meetings Less Terrible (Ep. 389 Rebroadcast)",
             Summary: `In the U.S. alone, we hold 55 million meetings a day. Most of them are woefully unproductive, and tyrannize our offices. The revolution begins now — with better agendas, smaller invite lists, and an embrace of healthy conflict.`,
             AudioFileUrl: `https://chtbl.com/track/288D49/traffic.omny.fm/d/clips/aaea4e69-af51-495e-afc9-a9760146922b/14a43378-edb2-49be-8511-ab0d000a7030/461751b7-0335-4534-ad2f-abc80154e54c/audio.mp3?utm_source=Podcast&in_playlist=d1b9612f-bb1b-4b85-9c0c-ab0d004ab37a`,

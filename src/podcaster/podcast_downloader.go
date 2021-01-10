@@ -6,7 +6,7 @@ type PodcastDownloaderListener interface {
     OnPodcastStarted( PodcastDownloaderId) 
     OnPodcastTerminated( PodcastDownloaderId, error)
 
-    OnEpisodeStarted( PodcastDownloaderId, episode PodcastEpisode)
+    OnEpisodeStarted( PodcastDownloaderId, episode PodcastEpisodeMeta)
     OnEpisodeTerminated( PodcastDownloaderId, error)
 }
 
@@ -18,7 +18,7 @@ type PodcastDownloader interface {
 
 func CreatePodcastDownloader( id PodcastDownloaderId,
                               podcast PodcastSource, 
-                              episodes []PodcastEpisode, 
+                              episodes []PodcastEpisodeMeta, 
                               writerCreator EpisodeWriterCreator) (PodcastDownloader, error) {
     return nil,nil
 }

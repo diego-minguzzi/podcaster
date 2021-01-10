@@ -9,6 +9,10 @@ type DateTime     time.Time
 type KBytePerSec  int
 type Url          string
 
+const audioFileExt = ".mp3"
+const defaultFilenameLen = 60
+const fileNameSeparator = rune('_') 
+
 func (b ByteSize) String() string { return fmt.Sprintf("%d Bytes",b) }
 func (d *DateTime) String() string { return (time.Time(*d)).String() }
 func (k KBytePerSec) String() string { return fmt.Sprintf("%d kB/s",k) }
@@ -20,36 +24,12 @@ type PodcastSource struct {
     // Human readable name of the podcast.
     PodcastName           string     
     FeedUrl               Url     
-    NumEpisodesToDownload int
-    OverwriteFilename     bool // Whether the    
-}
-
-type PodcastEpisode struct {
-    Title                 string
-    Summary               string 
-    AudioFileUrl          Url     
-    AudioFileSize         ByteSize
-    PublicationDate       DateTime
-    EpisodeNumber         int
-    AudioDuration         time.Duration
-}
-
-func (p *PodcastEpisode) HasEpisodeNumber() bool { 
-    return p.EpisodeNumber > 0
-}
-
-func (p *PodcastEpisode) IsEqualForTestTo( that *PodcastEpisode ) bool { 
-    return (p.Title == that.Title) && 
-            (p.Summary == that.Summary) &&
-            (p.AudioFileUrl == that.AudioFileUrl) &&
-            (p.AudioFileSize == that.AudioFileSize) &&
-            (p.PublicationDate == that.PublicationDate) &&
-            (p.EpisodeNumber == that.EpisodeNumber)
+    NumEpisodesToDownload int    
 }
 
 type PodcastFeedUpdate struct {
    Podcast  PodcastSource
-   Episodes []PodcastEpisode
+   Episodes []PodcastEpisodeMeta
 }
 
 type PodcastFeedUpdateChItem struct {

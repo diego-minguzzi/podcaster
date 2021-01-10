@@ -7,8 +7,7 @@ func TestImaniParseRssFeedAllEpisodes( t *testing.T) {
     podSource := PodcastSource {
         PodcastName: "Imani_State_of_Mind",
         FeedUrl: "https://omny.fm/shows/imani-state-of-mind/playlists/podcast.rss",
-        NumEpisodesToDownload: 10,
-        OverwriteFilename: false, 
+        NumEpisodesToDownload: 10,        
 	}
 
     rssReader := strings.NewReader( imaniRssContent)
