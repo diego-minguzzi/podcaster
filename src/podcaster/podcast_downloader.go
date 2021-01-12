@@ -19,6 +19,6 @@ type PodcastDownloader interface {
 func CreatePodcastDownloader( id PodcastDownloaderId,
                               podcast PodcastSource, 
                               episodes []PodcastEpisodeMeta, 
-                              writerCreator EpisodeWriterCreator) (PodcastDownloader, error) {
+                              storage PodcastStorage) (PodcastDownloader, error) {
     return nil,nil
 }

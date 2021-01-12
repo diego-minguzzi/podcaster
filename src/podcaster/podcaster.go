@@ -3,6 +3,14 @@ package podcaster
 import "fmt"
 import "time"
 
+/* TODO
+   (_) Episode writer
+       (_) File Episode writer
+   (X) Feed parser
+   (_) Podcast downloader
+   (_) 
+*/
+
 // A size expressed into bytes.
 type ByteSize     int
 type DateTime     time.Time

@@ -11,8 +11,3 @@ type EpisodeWriter interface {
     CloseAndDiscard() error 
 }
 
-// Interface to a creator of episode writers.
-type EpisodeWriterCreator interface {
-    CreateEpisodeWriter( podcast PodcastSource, episode PodcastEpisodeMeta) (EpisodeWriter, error)
-}
-
