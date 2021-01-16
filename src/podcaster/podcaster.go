@@ -4,8 +4,8 @@ import "fmt"
 import "time"
 
 /* TODO
-   (_) Episode writer
-       (_) File Episode writer
+   (X) Episode writer
+       (X) File Episode writer
    (X) Feed parser
    (_) Podcast downloader
    (_) 
@@ -16,6 +16,7 @@ type ByteSize     int
 type DateTime     time.Time
 type KBytePerSec  int
 type Url          string
+type ChTerminated chan struct{}
 
 const audioFileExt = ".mp3"
 const defaultFilenameLen = 60
@@ -50,4 +51,12 @@ type Settings struct {
     NumMaxConnections   int
     MaxBandWidth        KBytePerSec
     StoragePath         string 
+}
+
+type PodcastProgress struct {
+    EpisodeSizeDownloaded   ByteSize 
+    EpisodeSizeToDownload   ByteSize 
+    NumEpisodesToDownload   int
+    NumEpisodesDownloaded   int
+    DownloadBandWidth       KBytePerSec
 }

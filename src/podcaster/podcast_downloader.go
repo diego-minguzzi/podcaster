@@ -1,24 +1,15 @@
 package podcaster
 
-type PodcastDownloaderId int
-
-type PodcastDownloaderListener interface {
-    OnPodcastStarted( PodcastDownloaderId) 
-    OnPodcastTerminated( PodcastDownloaderId, error)
-
-    OnEpisodeStarted( PodcastDownloaderId, episode PodcastEpisodeMeta)
-    OnEpisodeTerminated( PodcastDownloaderId, error)
-}
 
 type PodcastDownloader interface {
     Start()
     Terminate()
-    AddListener( listener PodcastDownloaderListener) error 
+    // AddListener( listener PodcastDownloaderListener) error 
+    Wait()
 }
 
-func CreatePodcastDownloader( id PodcastDownloaderId,
-                              podcast PodcastSource, 
-                              episodes []PodcastEpisodeMeta, 
-                              storage PodcastStorage) (PodcastDownloader, error) {
-    return nil,nil
+func CreatePodcastDownloader() (PodcastDownloader,error){
+    return nil, nil
 }
+
+

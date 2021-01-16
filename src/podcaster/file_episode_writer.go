@@ -4,6 +4,7 @@ import "fmt"
 import "github.com/diego-minguzzi/dmlog"
 import "os"
 
+/* Creates a File Episode Writer that writes filepath a size of fileSize bytes.*/
 func CreateFileEpisodeWriter( filepath string, fileSize ByteSize) (EpisodeWriter, error) {
     if fileSize<0 {
         return nil,fmt.Errorf("invalid fileSize. Got:%d",fileSize)
@@ -21,11 +22,13 @@ func CreateFileEpisodeWriter( filepath string, fileSize ByteSize) (EpisodeWriter
     return &result,nil
 }
 
+//-------------------------------------------------------------------------------------------------
 type fileEpisodeWriter struct {
     episodeData []byte
 	file        *os.File    
 }
 
+//-------------------------------------------------------------------------------------------------
 /* Implements the WriteCloser interface.
    Panic in case Write() is called after Close() or CloseAndDiscard() */
 func (f *fileEpisodeWriter) Write(p []byte) (n int, err error) {
@@ -38,6 +41,7 @@ func (f *fileEpisodeWriter) Write(p []byte) (n int, err error) {
     return len(p),nil
 }
 
+//-------------------------------------------------------------------------------------------------
 /* Implements the WriteCloser interface */
 func (f *fileEpisodeWriter) Close() error {
     _,err := f.file.Write( f.episodeData)
@@ -47,10 +51,12 @@ func (f *fileEpisodeWriter) Close() error {
     return f.innerClose()
 }
 
+//-------------------------------------------------------------------------------------------------
 func (f *fileEpisodeWriter) CloseAndDiscard() error {
     return f.innerClose()
 }
 
+//-------------------------------------------------------------------------------------------------
 func (f *fileEpisodeWriter) innerClose() error {
     if nil==f.file {
         dmlog.Warn("Writer already closed.")
@@ -63,4 +69,3 @@ func (f *fileEpisodeWriter) innerClose() error {
     }
     return nil
 }
-

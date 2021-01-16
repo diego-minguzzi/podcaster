@@ -1,5 +1,6 @@
 package podcaster
 
+import "github.com/diego-minguzzi/dmlog"
 import "fmt"
 import "os"
 import "path"
@@ -25,10 +26,12 @@ func CreateFsStorage( params *FsStorageParams) (PodcastStorage, error) {
     return &fsObj,nil
 }
 
+//-------------------------------------------------------------------------------------------------
 func (f *fsStorage) HasEpisode( podSource *PodcastSource, 
                                 episodeMeta *PodcastEpisodeMeta) (bool,error){
 
     audioFilepath,err := f.getEpisodeAudioFilepath( podSource, episodeMeta)
+	dmlog.Debug("audioFilepath:",audioFilepath)
     if err!=nil {
         return false, fmt.Errorf("getEpisodeAudioFilepath() failed:%s",err)
     }
@@ -38,6 +41,23 @@ func (f *fsStorage) HasEpisode( podSource *PodcastSource,
 	}
 
     return true,nil
+}
+
+//-------------------------------------------------------------------------------------------------
+func (f *fsStorage) CreateEpisodeWriter(podSource *PodcastSource, 
+                                        episodeMeta *PodcastEpisodeMeta) (EpisodeWriter, error) {
+    audioFilepath,err := f.getEpisodeAudioFilepath( podSource, episodeMeta)
+    if err!=nil {
+        return nil,fmt.Errorf("getEpisodeAudioFilepath() failed. Got:%s",err)
+    }
+    dmlog.Debug("audioFilepath:",audioFilepath,"Audio file size:",episodeMeta.AudioFileSize)
+    
+    writer,err:= CreateFileEpisodeWriter( audioFilepath, episodeMeta.AudioFileSize) 
+    if err!=nil {
+        return nil,fmt.Errorf("CreateFileEpisodeWriter() failed. Got:%s",err)
+    }
+
+    return writer,nil
 }
 
 // Composes the full path to the audio file of a given episode.
