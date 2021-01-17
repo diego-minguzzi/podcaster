@@ -35,5 +35,5 @@ func (self *TimeoutReader) Read(buf []byte) (n int, err error) {
 }
 
 func (self *TimeoutReader) Close() error {
-	return self.reader.Close() 
-} 
+	return self.reader.Close()
+}

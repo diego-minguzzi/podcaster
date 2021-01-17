@@ -14,6 +14,7 @@ import "time"
 // A size expressed into bytes.
 type ByteSize int
 type DateTime time.Time
+type BytePerSec int
 type KBytePerSec int
 type Url string
 type ChTerminated chan struct{}
@@ -21,11 +22,13 @@ type ChTerminated chan struct{}
 const audioFileExt = ".mp3"
 const defaultFilenameLen = 60
 const fileNameSeparator = rune('_')
+const epsilon = 0.00001
 
-func (b ByteSize) String() string    { return fmt.Sprintf("%d Bytes", b) }
-func (d *DateTime) String() string   { return (time.Time(*d)).String() }
-func (k KBytePerSec) String() string { return fmt.Sprintf("%d kB/s", k) }
-func (u *Url) String() string        { return string(*u) }
+func (b ByteSize) String() string              { return fmt.Sprintf("%d Bytes", b) }
+func (d *DateTime) String() string             { return (time.Time(*d)).String() }
+func (k KBytePerSec) String() string           { return fmt.Sprintf("%d kB/s", k) }
+func (k KBytePerSec) toBytePerSec() BytePerSec { return BytePerSec(k * 1024) }
+func (u *Url) String() string                  { return string(*u) }
 
 //--------------------------------------------------------------------------------------------------
 /* A podcast source, e.g. the RSS feed of the podcast*/

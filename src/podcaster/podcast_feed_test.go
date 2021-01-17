@@ -10,7 +10,7 @@ func TestMain(m *testing.M) {
 	defer dmlog.Terminate()
 
 	// Adds a sink that writes to the console.
-	sinkId, err := dmlog.AddConsoleSink(dmlog.DebugSeverity)
+	sinkId, err := dmlog.AddConsoleSink(dmlog.InfoSeverity)
 	if err != nil {
 		log.Panicln("AddConsoleSink() failed:", err)
 	}

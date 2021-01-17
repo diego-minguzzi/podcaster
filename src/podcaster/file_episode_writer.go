@@ -17,6 +17,7 @@ func CreateFileEpisodeWriter(filepath string, fileSize ByteSize) (EpisodeWriter,
 	result := fileEpisodeWriter{
 		episodeData: make([]byte, 0, fileSize),
 		file:        newFile,
+		filepath:    filepath,
 	}
 
 	return &result, nil
@@ -26,6 +27,7 @@ func CreateFileEpisodeWriter(filepath string, fileSize ByteSize) (EpisodeWriter,
 type fileEpisodeWriter struct {
 	episodeData []byte
 	file        *os.File
+	filepath    string
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -51,7 +53,14 @@ func (f *fileEpisodeWriter) Close() error {
 
 //-------------------------------------------------------------------------------------------------
 func (f *fileEpisodeWriter) CloseAndDiscard() error {
-	return f.innerClose()
+	errResult := f.innerClose()
+	dmlog.Info("About to remove the file:", f.filepath)
+	errRemove := os.Remove(f.filepath)
+	if errRemove != nil {
+		dmlog.Error("Remove() failed:", errRemove)
+		return nil
+	}
+	return errResult
 }
 
 //-------------------------------------------------------------------------------------------------
