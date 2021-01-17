@@ -7,11 +7,11 @@ import (
 )
 
 type TimeoutReader struct {
-	reader  io.Reader
+	reader  io.ReadCloser
 	timeout time.Duration
 }
 
-func NewTimeoutReader(reader io.Reader, timeout time.Duration) io.Reader {
+func NewTimeoutReader(reader io.ReadCloser, timeout time.Duration) io.ReadCloser {
 	ret := new(TimeoutReader)
 	ret.reader = reader
 	ret.timeout = timeout
@@ -33,3 +33,7 @@ func (self *TimeoutReader) Read(buf []byte) (n int, err error) {
 		return 0, errors.New("Timeout expired")
 	}
 }
+
+func (self *TimeoutReader) Close() error {
+	return self.reader.Close() 
+} 

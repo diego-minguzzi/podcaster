@@ -3,52 +3,57 @@ package podcaster
 import "strings"
 import "testing"
 
-func TestImaniParseRssFeedAllEpisodes( t *testing.T) {
-    podSource := PodcastSource {
-        PodcastName: "Imani_State_of_Mind",
-        FeedUrl: "https://omny.fm/shows/imani-state-of-mind/playlists/podcast.rss",
-        NumEpisodesToDownload: 10,        
+func TestImaniParseRssFeedAllEpisodes(t *testing.T) {
+	podSource := PodcastSource{
+		PodcastName:           "Imani_State_of_Mind",
+		FeedUrl:               "https://omny.fm/shows/imani-state-of-mind/playlists/podcast.rss",
+		NumEpisodesToDownload: 10,
 	}
 
-    rssReader := strings.NewReader( imaniRssContent)
-  
-    podEpisodes,err := ParseRssFeedAllEpisodes( podSource, rssReader)
-    if err!=nil {
-        t.Error(t.Name(),`ParseRssFeedAllEpisodes() failed:`,err)            
-        return 
-    }
-    {
-        want:=1
-        got:=len(podEpisodes)
-        if want!=got {
-            t.Error(t.Name(),`Num episodes, want:`,want,`got:`,got)            
-            return 
-        }
+	rssReader := strings.NewReader(imaniRssContent)
+
+	podEpisodes, err := ParseRssFeedAllEpisodes(podSource, rssReader)
+	if err != nil {
+		t.Error(t.Name(), `ParseRssFeedAllEpisodes() failed:`, err)
+		return
+	}
+	{
+		want := 1
+		got := len(podEpisodes)
+		if want != got {
+			t.Error(t.Name(), `Num episodes, want:`, want, `got:`, got)
+			return
+		}
 	}
 
-    episode := podEpisodes[0]
+	episode := podEpisodes[0]
 
-    t.Log("Parse result", episode.Title, episode.AudioFileSize, episode.AudioFileUrl)
-    t.Log("EpisodeNumber:", episode.EpisodeNumber)
-    t.Log("AudioDuration:", episode.AudioDuration)
-    {
-        got:= episode.AudioFileUrl
-        want:=Url(`https://chtbl.com/track/288D49/traffic.omny.fm/d/clips/aaea4e69/audio.mp3?utm_source=Podcast`)        
-        if want!=got { t.Error(t.Name(),`AudioFileUrl, want:`,want,`got:`,got) }
-    }
-    { 
-        got:= episode.AudioFileSize
-        want:=ByteSize(99871330)        
-        if want!=got { t.Error(t.Name(),`AudioFileSize, want:`,want,`got:`,got) }
-    }
-    {
-        got:= episode.Title
-        want:=`Schizo-what??`        
-        if want!=got { t.Error(t.Name(),`Title, want:`,want,`got:`,got) }
-    }
-    
+	t.Log("Parse result", episode.Title, episode.AudioFileSize, episode.AudioFileUrl)
+	t.Log("EpisodeNumber:", episode.EpisodeNumber)
+	t.Log("AudioDuration:", episode.AudioDuration)
+	{
+		got := episode.AudioFileUrl
+		want := Url(`https://chtbl.com/track/288D49/traffic.omny.fm/d/clips/aaea4e69/audio.mp3?utm_source=Podcast`)
+		if want != got {
+			t.Error(t.Name(), `AudioFileUrl, want:`, want, `got:`, got)
+		}
+	}
+	{
+		got := episode.AudioFileSize
+		want := ByteSize(99871330)
+		if want != got {
+			t.Error(t.Name(), `AudioFileSize, want:`, want, `got:`, got)
+		}
+	}
+	{
+		got := episode.Title
+		want := `Schizo-what??`
+		if want != got {
+			t.Error(t.Name(), `Title, want:`, want, `got:`, got)
+		}
+	}
+
 }
-
 
 const imaniRssContent string = `
 <?xml version="1.0" encoding="utf-8"?>
