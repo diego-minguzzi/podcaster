@@ -64,10 +64,12 @@ func (f *fsStorage) CreateEpisodeWriter(podSource *PodcastSource,
 func (f *fsStorage) getEpisodeAudioFilepath(podSource *PodcastSource,
 	episodeMeta *PodcastEpisodeMeta) (string, error) {
 
+	podcastName := NameToSymbol(podSource.PodcastName)
+
 	fileBaseName, err := GetAudioFileBaseName(podSource, episodeMeta)
 	if err != nil {
 		return "", fmt.Errorf("GetAudioFileBaseName() failed:%s", err)
 	}
 
-	return path.Join(f.rootDirpath, fileBaseName+audioFileExt), nil
+	return path.Join(f.rootDirpath, podcastName, fileBaseName+audioFileExt), nil
 }

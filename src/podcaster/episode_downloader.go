@@ -82,7 +82,7 @@ func CreateEpisodeDownloader(id EpisodeDownloaderId,
 		podcastSource:   podSource,
 		episodeMeta:     episodeMeta,
 		listeners:       make([]EpisodeDownloaderListener, 0, len(listeners)),
-		buffer:          make([]byte, int(connParams.DataRate.toBytePerSec())),
+		buffer:          make([]byte, int(connParams.DownloadDataRate.toBytePerSec())),
 		tmDownloadStart: time.Now(),
 	}
 
@@ -227,7 +227,7 @@ func handleRequest(ctx *ctxEpisodeDownloader, request interface{}) replyEpisodeD
 
 //-------------------------------------------------------------------------------------------------
 func downloadNextChunk(ctx *ctxEpisodeDownloader, audioFileReader io.ReadCloser) (bool, error) {
-	chunkSizeTarget := int(ctx.connParams.DataRate.toBytePerSec())
+	chunkSizeTarget := int(ctx.connParams.DownloadDataRate.toBytePerSec())
 	var err error
 	var n int
 	// Tries to accumulate enough size to reach the target of the period.

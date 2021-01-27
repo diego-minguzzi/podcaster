@@ -3,6 +3,23 @@ package podcaster
 import "testing"
 import "time"
 
+func TestNameToSymbol(t *testing.T) {
+	var testTable = []struct {
+		input string
+		want  string
+	}{
+		{input: "A b c d", want: "a_b_c_d"},
+		{input: "A\tbc  d", want: "a_bc__d"},
+	}
+
+	for indx, testCase := range testTable {
+		got := NameToSymbol(testCase.input)
+		if testCase.want != got {
+			t.Error(t.Name(), `TestNameToSymbol() failed on item:`, indx, `got:`, got, `want:`, testCase.want)
+		}
+	}
+}
+
 func TestGetAudioFileBaseName(t *testing.T) {
 	type testTableItem struct {
 		gotPodSource   PodcastSource

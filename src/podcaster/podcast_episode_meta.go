@@ -3,6 +3,7 @@ package podcaster
 import "fmt"
 import "strings"
 import "time"
+import "unicode"
 
 // Metadata about a podcast episode.
 type PodcastEpisodeMeta struct {
@@ -30,13 +31,30 @@ func (p *PodcastEpisodeMeta) IsEqualForTestTo(that *PodcastEpisodeMeta) bool {
 		(p.EpisodeNumber == that.EpisodeNumber)
 }
 
+func getNameWithoutSpaces(name string, substSpace rune) string {
+
+	return strings.Map(func(r rune) rune {
+		if unicode.IsSpace(r) {
+			return substSpace
+		} else {
+			return r
+		}
+	}, name)
+}
+
+// Given a name, it returns the corresponding symbol, (no space characters), lowercase
+func NameToSymbol(name string) string {
+	return getNameWithoutSpaces(strings.ToLower(strings.TrimSpace(name)),
+		fileNameSeparator)
+}
+
 /* Composes the audio file base name (no extension), as: PodcastTitle_yyyymmdd_nnnn  */
 func GetAudioFileBaseName(podSource *PodcastSource,
 	episodeMeta *PodcastEpisodeMeta) (string, error) {
 	var fileName strings.Builder
 	fileName.Grow(defaultFilenameLen)
 
-	podcastName := strings.ToLower(strings.TrimSpace(podSource.PodcastName))
+	podcastName := NameToSymbol(podSource.PodcastName)
 	var err error = nil
 	_, err = fileName.WriteString(podcastName)
 	if err != nil {

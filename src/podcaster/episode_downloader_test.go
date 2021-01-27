@@ -24,7 +24,7 @@ func TestCreateEpisodeDownloader(t *testing.T) {
 	var connParams = ConnectionParams{
 		NumFeedConnections:    1,
 		NumEpisodeConnections: 1,
-		DataRate:              KBytePerSec(50),
+		DownloadDataRate:      KBytePerSec(50),
 		RecvTimeout:           timeout,
 	}
 
@@ -92,7 +92,7 @@ func TestCreateEpisodeDownloaderWithTermination(t *testing.T) {
 	var connParams = ConnectionParams{
 		NumFeedConnections:    1,
 		NumEpisodeConnections: 1,
-		DataRate:              KBytePerSec(50),
+		DownloadDataRate:      KBytePerSec(50),
 		RecvTimeout:           timeout,
 	}
 

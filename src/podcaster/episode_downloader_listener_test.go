@@ -61,7 +61,7 @@ func TestCreateEpisodeDownloaderWithListener(t *testing.T) {
 	var connParams = ConnectionParams{
 		NumFeedConnections:    1,
 		NumEpisodeConnections: 1,
-		DataRate:              KBytePerSec(100),
+		DownloadDataRate:      KBytePerSec(100),
 		RecvTimeout:           timeout,
 	}
 
